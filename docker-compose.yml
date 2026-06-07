@@ -1,0 +1,12 @@
+services:
+  nighthawk:
+    build: .
+    image: nighthawk-pro:latest
+    container_name: nighthawk-pro
+    ports:
+      - "8080:5000"
+    environment:
+      - DB_PATH=/data/nighthawk.db
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
