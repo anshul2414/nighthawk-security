@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NightHawk — Cybersecurity Intelligence Platform | 30 Modules</title>
+<meta name="description" content="NightHawk: 30-module self-hosted cybersecurity platform. Port scan, JWT analyzer, SSRF probe, XSS/SQLi scanner, subdomain enum & more."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#04080f;--surface:#0b1120;--surface2:#111827;--border:#1e2a3a;--accent:#00c896;--accent2:#00a07a;--text:#e2eaf5;--muted:#7a8fa8;--dim:#3d4f63;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,150,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,150,.06) 0%,transparent 70%);top:-200px;right:-200px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(4,8,15,.85);border-bottom:1px solid var(--border);padding:0 clamp(16px,5vw,64px);height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.logo-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px rgba(0,200,150,.3)}
+.logo-name{font-weight:800;font-size:16px;letter-spacing:.3px}
+.logo-tag{font-size:11px;color:var(--accent);font-weight:600;background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.25);padding:2px 9px;border-radius:20px;letter-spacing:.5px}
+.nav-r{display:flex;align-items:center;gap:6px}
+.nav-r a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;padding:6px 14px;border-radius:6px;transition:all .2s}
+.nav-r a:hover{color:var(--text);background:var(--surface2)}
+.nav-r a.cta{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#022;font-weight:700;box-shadow:0 0 18px rgba(0,200,150,.3)}
+.nav-r a.cta:hover{box-shadow:0 0 28px rgba(0,200,150,.5)}
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px clamp(16px,5vw,64px) 60px}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,150,.07);border:1px solid rgba(0,200,150,.22);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:28px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:p 2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.25}}
+h1{font-size:clamp(2.2rem,6vw,4.6rem);font-weight:800;line-height:1.08;letter-spacing:-2px;margin-bottom:22px}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),#00ffcc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:clamp(.95rem,1.8vw,1.15rem);color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.7}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:60px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:9px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#022;box-shadow:0 0 28px rgba(0,200,150,.3)}
+.btn-p:hover{box-shadow:0 0 40px rgba(0,200,150,.5);transform:translateY(-2px)}
+.btn-s{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-s:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,200,150,.06)}
+.stats{display:flex;gap:48px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+.sn{font-size:2.2rem;font-weight:800;color:var(--accent)}.sl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.term{width:min(660px,90vw);background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;text-align:left;box-shadow:0 24px 64px rgba(0,0,0,.6),0 0 40px rgba(0,200,150,.05)}
+.tb{background:var(--surface2);padding:11px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.d{width:12px;height:12px;border-radius:50%}.dr{background:#ef4444}.dy{background:#eab308}.dg{background:#22c55e}
+.tt{margin:0 auto;font-size:12px;color:var(--dim);font-family:var(--mono)}
+.tbody{padding:20px;font-family:var(--mono);font-size:13px;line-height:1.9}
+.cp{color:var(--accent)}.cc{color:var(--text)}.cg{color:#22c55e}.cy{color:#eab308}.cb{color:#60a5fa}.cd{color:var(--dim)}
+s2{display:block;position:relative;z-index:1;padding:76px clamp(16px,5vw,64px)}
+.sl2{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.st{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:800;margin-bottom:10px;letter-spacing:-.5px}
+.ss{color:var(--muted);max-width:500px;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px}
+.c{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;transition:all .2s}
+.c:hover{border-color:rgba(0,200,150,.35);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,200,150,.08)}
+.ci{font-size:1.4rem;margin-bottom:8px}.cn{font-weight:600;font-size:13px;margin-bottom:3px}.cd2{font-size:12px;color:var(--muted)}
+.tag{display:inline-block;margin-top:8px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.tc{background:rgba(0,200,150,.1);color:var(--accent)}.ta{background:rgba(239,68,68,.1);color:#f87171}
+.code{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;overflow-x:auto;margin-bottom:16px}
+.code pre{font-family:var(--mono);font-size:13px;line-height:1.8}.code .cm{color:var(--dim)}.code .cmd{color:var(--accent)}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:40px clamp(16px,5vw,64px);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.fl{display:flex;gap:16px;flex-wrap:wrap}.fl a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s}.fl a:hover{color:var(--text)}
+.fc{font-size:12px;color:var(--dim)}
+@media(max-width:580px){.nav-r a:not(.cta){display:none}.stats{gap:28px}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-icon">&#129445;</div>
+    <span class="logo-name">NightHawk</span>
+    <span class="logo-tag">v1.0</span>
+  </a>
+  <div class="nav-r">
+    <a href="#modules">Modules</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/anshul2414/nighthawk-security" target="_blank">GitHub</a>
+    <a href="https://github.com/anshul2414/nighthawk-security" target="_blank" class="cta">&#11088; Star</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="pill"><span class="dot"></span>v1.0 &nbsp;&middot;&nbsp; 30 Modules &nbsp;&middot;&nbsp; Self-Hosted &nbsp;&middot;&nbsp; No Auth</div>
+  <h1><em>NightHawk</em><br/>Cybersecurity<br/>Intelligence Platform</h1>
+  <p class="sub">30 offensive &amp; defensive security modules in one sleek self-hosted dashboard. Scan instantly — no login, no friction, no cloud dependencies.</p>
+  <div class="ctas">
+    <a class="btn btn-p" href="https://github.com/anshul2414/nighthawk-security">&#128025; View on GitHub</a>
+    <a class="btn btn-s" href="#install">&#128640; Quick Start</a>
+    <a class="btn btn-s" href="#modules">&#128230; 30 Modules</a>
+  </div>
+  <div class="stats">
+    <div><div class="sn">30</div><div class="sl">Modules</div></div>
+    <div><div class="sn">16</div><div class="sl">Recon</div></div>
+    <div><div class="sn">14</div><div class="sl">Offensive</div></div>
+    <div><div class="sn">1</div><div class="sl">Dashboard</div></div>
+  </div>
+  <div class="term">
+    <div class="tb"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div><span class="tt">nighthawk-security</span></div>
+    <div class="tbody">
+      <div><span class="cp">$</span> <span class="cc">git clone https://github.com/anshul2414/nighthawk-security.git</span></div>
+      <div><span class="cg">&#10004; Cloning into 'nighthawk-security'...</span></div>
+      <div><span class="cp">$</span> <span class="cc">pip install -r requirements.txt &amp;&amp; python app.py</span></div>
+      <div><span class="cy">&rarr; Installing flask, dnspython, python-whois, gunicorn...</span></div>
+      <div><span class="cb">&#10022; NightHawk v1.0 &mdash; 30 modules loaded</span></div>
+      <div><span class="cg">&#10004; Running on http://localhost:5000</span></div>
+      <div><span class="cd"># No login needed &mdash; start scanning immediately</span></div>
+    </div>
+  </div>
+</div>
+
+<s2 id="modules" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div style="max-width:1100px;margin:0 auto">
+  <div class="sl2">Security Modules</div>
+  <div class="st">30 Modules. One Platform.</div>
+  <p class="ss">16 core reconnaissance + 14 advanced offensive modules. Instant access, no auth layer.</p>
+  <div class="grid">
+    <div class="c"><div class="ci">&#128279;</div><div class="cn">URL Check</div><div class="cd2">Safety, redirects &amp; metadata</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128268;</div><div class="cn">Port Scanner</div><div class="cd2">TCP ports with service detection</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#127760;</div><div class="cn">DNS Lookup</div><div class="cd2">A, MX, NS, TXT, AAAA records</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128274;</div><div class="cn">SSL Inspector</div><div class="cd2">Cert chain, expiry, ciphers</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128203;</div><div class="cn">WHOIS Lookup</div><div class="cd2">Domain registration &amp; ownership</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#129520;</div><div class="cn">Tech Detect</div><div class="cd2">Technologies, frameworks &amp; CMS</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128231;</div><div class="cn">Email Security</div><div class="cd2">SPF, DKIM, DMARC validation</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128204;</div><div class="cn">Security Headers</div><div class="cd2">HSTS, CSP, X-Frame-Options</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#127744;</div><div class="cn">CORS Analyzer</div><div class="cd2">Cross-Origin misconfiguration</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#129521;</div><div class="cn">WAF Detect</div><div class="cd2">Firewall fingerprinting</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#127807;</div><div class="cn">Subdomain Enum</div><div class="cd2">Passive subdomain discovery</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128205;</div><div class="cn">IP Geolocation</div><div class="cd2">ASN, ISP, geo &amp; threat data</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">#&#65039;&#8419;</div><div class="cn">Hash Tools</div><div class="cd2">MD5, SHA-1, SHA-256/512</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128273;</div><div class="cn">Password Analyzer</div><div class="cd2">Strength &amp; entropy scoring</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#129302;</div><div class="cn">Robots.txt Parser</div><div class="cd2">Hidden paths &amp; endpoints</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128027;</div><div class="cn">CVE Search</div><div class="cd2">Vulnerability intelligence</div><span class="tag tc">Core</span></div>
+    <div class="c"><div class="ci">&#128756;&#65039;</div><div class="cn">Traceroute</div><div class="cd2">Path tracing &amp; hop latency</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#128194;</div><div class="cn">Dir Fuzzer</div><div class="cd2">Directory brute-force enum</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#128137;</div><div class="cn">XSS / SQLi / LFI</div><div class="cd2">Injection vulnerability scanner</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#8618;&#65039;</div><div class="cn">Open Redirect</div><div class="cd2">Redirect chain detection</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#127850;</div><div class="cn">Cookie Analyzer</div><div class="cd2">HttpOnly, Secure, SameSite audit</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#127903;&#65039;</div><div class="cn">JWT Analyzer</div><div class="cd2">Decode, audit &amp; fuzz tokens</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#128272;</div><div class="cn">TLS Deep Scan</div><div class="cd2">Version, ciphers &amp; pinning</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#128293;</div><div class="cn">Firewall Detect</div><div class="cd2">IDS/IPS &amp; firewall detection</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#128269;</div><div class="cn">Email Forensics</div><div class="cd2">Header trace &amp; spoofing</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#127760;</div><div class="cn">CIDR Scanner</div><div class="cd2">Bulk IP range scanning</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#127991;&#65039;</div><div class="cn">Banner Grabber</div><div class="cd2">Service banner collection</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#128268;</div><div class="cn">API Security Tester</div><div class="cd2">REST/GraphQL enumeration</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#129422;</div><div class="cn">Network Fingerprinter</div><div class="cd2">OS &amp; service detection</div><span class="tag ta">Advanced</span></div>
+    <div class="c"><div class="ci">&#9729;&#65039;</div><div class="cn">SSRF / Cloud Probe</div><div class="cd2">SSRF &amp; cloud metadata testing</div><span class="tag ta">Advanced</span></div>
+  </div>
+</div>
+</s2>
+
+<s2 id="install">
+<div style="max-width:860px;margin:0 auto">
+  <div class="sl2">Quick Start</div>
+  <div class="st">Running in 30 seconds</div>
+  <div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap" id="tabs">
+    <span onclick="sw('py',this)" class="tb2" style="padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:rgba(0,200,150,.1);border:1px solid rgba(0,200,150,.3);color:var(--accent)">&#128013; Python</span>
+    <span onclick="sw('dk',this)" class="tb2" style="padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:var(--surface2);border:1px solid var(--border);color:var(--muted)">&#128051; Docker</span>
+    <span onclick="sw('win',this)" class="tb2" style="padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;background:var(--surface2);border:1px solid var(--border);color:var(--muted)">&#127987;&#65039; Windows</span>
+  </div>
+  <div id="t-py" class="code"><pre><span class="cm"># Clone &amp; run NightHawk</span>
+<span class="cmd">git clone https://github.com/anshul2414/nighthawk-security.git</span>
+<span class="cmd">cd nighthawk-security</span>
+<span class="cmd">pip install -r requirements.txt</span>
+<span class="cmd">python app.py</span>
+<span class="cm"># Open &rarr; http://localhost:5000  (no login required)</span></pre></div>
+  <div id="t-dk" class="code" style="display:none"><pre><span class="cm"># Docker Compose</span>
+<span class="cmd">git clone https://github.com/anshul2414/nighthawk-security.git</span>
+<span class="cmd">cd nighthawk-security &amp;&amp; docker-compose up -d</span>
+<span class="cm"># Open &rarr; http://localhost:8080</span></pre></div>
+  <div id="t-win" class="code" style="display:none"><pre><span class="cm"># Windows one-click</span>
+<span class="cmd">git clone https://github.com/anshul2414/nighthawk-security.git</span>
+<span class="cmd">cd nighthawk-security &amp;&amp; run.bat</span>
+<span class="cm"># Opens &rarr; http://localhost:5000</span></pre></div>
+</div>
+</s2>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px">&#129445;</div>
+    <span style="font-weight:700;font-size:14px">NightHawk</span>
+    <span class="fc">v1.0 &middot; MIT License</span>
+  </div>
+  <div class="fl">
+    <a href="https://github.com/anshul2414/nighthawk-security" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/anshul-9800a3275" target="_blank">LinkedIn</a>
+    <a href="https://tryhackme.com/p/anshul28054" target="_blank">TryHackMe</a>
+    <a href="https://github.com/anshul2414/nighthawk-security/blob/main/LICENSE" target="_blank">License</a>
+  </div>
+  <p class="fc">Built by <a href="https://github.com/anshul2414" style="color:var(--accent);text-decoration:none">Anshul</a> &middot; Authorized use only</p>
+</footer>
+<script>
+function sw(id,el){['py','dk','win'].forEach(t=>{document.getElementById('t-'+t).style.display=t===id?'block':'none'});document.querySelectorAll('.tb2').forEach(t=>{let a=t===el;t.style.background=a?'rgba(0,200,150,.1)':'var(--surface2)';t.style.borderColor=a?'rgba(0,200,150,.3)':'var(--border)';t.style.color=a?'var(--accent)':'var(--muted)'});}
+</script>
+</body>
+</html>
